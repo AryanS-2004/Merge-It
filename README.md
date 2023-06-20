@@ -1,4 +1,4 @@
-# Code Bilingual
+# Merge It
 
 Merge It is your go-to website for effortlessly staying up-to-date with the latest issues in GitHub repositories of your choice. With Merge It, you can easily track and manage the issues that matter to you the most. Stay informed about bug fixes, feature requests, and discussions surrounding your favorite repositories in real-time.
 
