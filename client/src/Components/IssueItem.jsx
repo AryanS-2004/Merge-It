@@ -1,4 +1,3 @@
-import React from "react";
 import LanguageBadgeItem from "./LanguageBadge.jsx";
 
 const IssueListItem = ({issue}) => {

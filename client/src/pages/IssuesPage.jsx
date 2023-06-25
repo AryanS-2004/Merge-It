@@ -1,10 +1,9 @@
 import {IssuesState} from "../Context/IssuesProvider.jsx";
-import {Avatar, Box, Button, Menu, MenuButton, MenuItem, MenuList, useToast} from "@chakra-ui/react";
+import {Avatar, Button, Menu, MenuButton, MenuItem, MenuList, useToast} from "@chakra-ui/react";
 import {AddIcon, ChevronDownIcon, DeleteIcon} from "@chakra-ui/icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import LanguageBadgeItem from "../Components/LanguageBadge.jsx";
 import IssueListItem from "../Components/IssueItem.jsx";
 
 const IssuesPage = () => {
@@ -65,40 +64,6 @@ const IssuesPage = () => {
         "YAML",
     ];
 
-
-    const validateRepoLink = () => {
-        const linkPattern = /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
-        if (!linkPattern.test(repoLink)) {
-            toast({
-                title: `Please enter correct link`,
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-                position: 'bottom'
-            })
-            return false;
-        }
-        return true;
-    };
-    const checkRepositoryExistence = async () => {
-        try {
-            const splittedRepoLink = repoLink.split('/');
-            const owner = splittedRepoLink[splittedRepoLink.length - 2];
-            const repo = splittedRepoLink[splittedRepoLink.length - 1];
-            const config = {
-                headers: {
-                    Authorization: `${process.env.GITHUB_PAT}`
-                }
-            }
-            const response = await axios.get(`https://api.github.com/repos/${owner}/${repo}`, config);
-            if (response.status === 200) {
-                return true;
-            }
-        } catch (error) {
-            return false;
-        }
-    };
-
     const fetchIssues = async () => {
         try {
             toast({
@@ -115,7 +80,7 @@ const IssuesPage = () => {
                 }
             }
 
-            const getIssues = await axios.get("http://localhost:3000/api/issues", config);
+            const getIssues = await axios.get(`${import.meta.env.VITE_API_URL}/api/issues`, config);
             if(selectedLanguage!==""){
                 getIssues.data = getIssues.data.filter((issue) => issue.languages.includes(selectedLanguage))
                 if(getIssues.data.length===0){
@@ -184,12 +149,11 @@ const IssuesPage = () => {
                 }
             }
 
-            const response = await axios.put("http://localhost:3000/api/repos/addRepo", {
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/repos/addRepo`, {
                 link: repoLink1 +"/issues"
             }, config);
             setRepoLink1("");
             setFetchAgain(!fetchAgain);
-            console.log(user);
             toast({
                 title: "Repository added!",
                 status: "success",
@@ -223,7 +187,7 @@ const IssuesPage = () => {
                     link: repoLink2 + "/issues",
                 },
             };
-            const response = await axios.delete("http://localhost:3000/api/repos/removeRepo", config);
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/repos/removeRepo`, config);
             setRepoLink2("");
             setFetchAgain(!fetchAgain);
             console.log(user);
