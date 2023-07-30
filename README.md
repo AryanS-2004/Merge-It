@@ -32,7 +32,7 @@ git clone https://github.com/AryanS-2004/Merge-It.git
 # Frontend Setup
 1. Change the current working directory to the cloned repository:
 ```bash 
-   ***cd Merge-It***
+cd Merge-It
 ```
 
 2. Navigate to the client directory:
