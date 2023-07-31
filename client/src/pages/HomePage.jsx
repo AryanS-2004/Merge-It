@@ -12,7 +12,7 @@ function HomePage() {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('userInfo'));
         if(user){
-            navigate('/chats')
+            navigate('/issues')
         }
     }, [navigate]);
     return (
