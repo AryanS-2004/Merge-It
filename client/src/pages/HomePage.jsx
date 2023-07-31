@@ -12,7 +12,8 @@ function HomePage() {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('userInfo'));
         if(user){
-            navigate('/issues')
+            navigate('/issues');
+            //added a comment
         }
     }, [navigate]);
     return (
