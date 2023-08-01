@@ -5,6 +5,7 @@ import './index.css'
 import {BrowserRouter} from "react-router-dom";
 import {ChakraProvider} from "@chakra-ui/react";
 import IssuesProvider from "./Context/IssuesProvider.jsx";
+import { Analytics } from '@vercel/analytics/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
@@ -12,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <ChakraProvider>
                 <IssuesProvider>
                 <App/>
+                <Analytics />
                 </IssuesProvider>
             </ChakraProvider>
         </BrowserRouter>
