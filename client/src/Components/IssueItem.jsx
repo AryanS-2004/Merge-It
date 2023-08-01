@@ -9,7 +9,7 @@ const IssueListItem = ({issue}) => {
                         <p className="w-1/12">#{issue.number} </p>
                         <h3 className="pl-3 w-4\6">{issue.title}</h3>
                     </div>
-                    <div className="w-1/6 ml-auto">
+                    <div className="w-1/4 ml-auto">
                         <a href={issue.link} target="_blank" className="cursor-pointer px-4 py-2 border rounded-md">Link to Issue</a>
                     </div>
                 </div>
