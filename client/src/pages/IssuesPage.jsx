@@ -149,10 +149,11 @@ const IssuesPage = () => {
                 }
             }
             if (repoLink1.endsWith('issues')) {
+                console.log(repoLink1);
                 await axios.put(`${import.meta.env.VITE_API_URL}/api/repos/addRepo`, {
                     link: repoLink1
                 }, config);
-            }else{
+            } else {
                 await axios.put(`${import.meta.env.VITE_API_URL}/api/repos/addRepo`, {
                     link: repoLink1 + "/issues"
                 }, config);
@@ -183,15 +184,28 @@ const IssuesPage = () => {
             return;
         }
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    authorization: `Bearer ${user.token}`,
-                },
-                data: {
-                    link: repoLink2 + "/issues",
-                },
-            };
+            let  config  ;
+            if (repoLink2.endsWith('issues')) {
+                config = {
+                    headers: {
+                        "Content-type": "application/json",
+                        authorization: `Bearer ${user.token}`,
+                    },
+                    data: {
+                        link: repoLink2,
+                    },
+                };
+            }else{
+                config = {
+                    headers: {
+                        "Content-type": "application/json",
+                        authorization: `Bearer ${user.token}`,
+                    },
+                    data: {
+                        link: repoLink2 + "/issues",
+                    },
+                };
+            }
             await axios.delete(`${import.meta.env.VITE_API_URL}/api/repos/removeRepo`, config);
             setRepoLink2("");
             setFetchAgain(!fetchAgain);
