@@ -184,7 +184,7 @@ const IssuesPage = () => {
             return;
         }
         try {
-            let  config  ;
+            let config;
             if (repoLink2.endsWith('issues')) {
                 config = {
                     headers: {
@@ -195,7 +195,7 @@ const IssuesPage = () => {
                         link: repoLink2,
                     },
                 };
-            }else{
+            } else {
                 config = {
                     headers: {
                         "Content-type": "application/json",
@@ -249,38 +249,42 @@ const IssuesPage = () => {
                             </Menu>
                         </div>
                     </div>
-                    <div className="flex justify-between w-11/12 mx-auto mb- 2 pt-4">
-                        <Menu>
-                            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                                Language
-                            </MenuButton>
-                            <MenuList className="max-h-64 overflow-y-auto">
-                                {Languages.map((language) => <MenuItem key={language} onClick={() => setSelectedLanguage(language)}>
-                                    {language}</MenuItem>
-                                )}
-                            </MenuList>
-                        </Menu>
-                        <div>
-                            <input
-                                style={{ fontFamily: "Josefin Sans", }}
-                                type="text"
-                                value={repoLink1}
-                                placeholder="Add Repository Link"
-                                onChange={(e) => setRepoLink1(e.target.value)}
-                                className="rounded-lg p-2 border-t  mr-0 border-b border-l text-gray-900 border-gray-200 bg-white"
-                            />
-                            <AddIcon onClick={addRepo} boxSize={8} color="gray.200" ml={2} />
+                    <div className=" justify-between w-11/12 mx-auto mb- 2 pt-4 block">
+                        <div className="flex justify-between xsm:block">
+                            <div className="my-2 ">
+                                <input
+                                    style={{ fontFamily: "Josefin Sans", }}
+                                    type="text"
+                                    value={repoLink1}
+                                    placeholder="Add Repository Link"
+                                    onChange={(e) => setRepoLink1(e.target.value)}
+                                    className="xsm:w-3/4 rounded-lg p-2 border-t  mr-0 border-b border-l text-gray-900 border-gray-200 bg-white"
+                                />
+                                <AddIcon onClick={addRepo} boxSize={8} color="gray.200" ml={2} />
+                            </div>
+                            <div className="my-2 xsm:w-full">
+                                <input
+                                    style={{ fontFamily: "Josefin Sans", }}
+                                    type="text"
+                                    value={repoLink2}
+                                    placeholder="Add Repository Link"
+                                    onChange={(e) => setRepoLink2(e.target.value)}
+                                    className="xsm:w-3/4 rounded-lg p-2 border-t  mr-0 border-b border-l text-gray-900 border-gray-200 bg-white"
+                                />
+                                <DeleteIcon onClick={removeRepo} boxSize={8} color="gray.200" ml={2} />
+                            </div>
                         </div>
-                        <div>
-                            <input
-                                style={{ fontFamily: "Josefin Sans", }}
-                                type="text"
-                                value={repoLink2}
-                                placeholder="Add Repository Link"
-                                onChange={(e) => setRepoLink2(e.target.value)}
-                                className="rounded-lg p-2 border-t  mr-0 border-b border-l text-gray-900 border-gray-200 bg-white"
-                            />
-                            <DeleteIcon onClick={removeRepo} boxSize={8} color="gray.200" ml={2} />
+                        <div className="">
+                            <Menu>
+                                <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                                    Language
+                                </MenuButton>
+                                <MenuList className="max-h-64 overflow-y-auto">
+                                    {Languages.map((language) => <MenuItem key={language} onClick={() => setSelectedLanguage(language)}>
+                                        {language}</MenuItem>
+                                    )}
+                                </MenuList>
+                            </Menu>
                         </div>
                     </div>
                     <div className="max-h-full overflow-y-auto pb-4" style={{ scrollbarColor: "#FFF transparent" }}>
