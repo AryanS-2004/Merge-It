@@ -287,7 +287,7 @@ const IssuesPage = () => {
                             </Menu>
                         </div>
                     </div>
-                    <div className="max-h-full overflow-y-auto pb-4" style={{ scrollbarColor: "#FFF transparent" }}>
+                    <div className="h-full overflow-y-auto pb-4" style={{ scrollbarColor: "#FFF transparent" }}>
                         {
                             issues?.map((issue) => <IssueListItem
                                 key={issue.title}
@@ -295,10 +295,7 @@ const IssuesPage = () => {
                             />)
                         }
                     </div>
-
-
                 </div>
-
             </>
         )
     }

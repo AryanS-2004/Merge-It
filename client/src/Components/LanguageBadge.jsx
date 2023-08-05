@@ -2,7 +2,7 @@ import {Box} from "@chakra-ui/react";
 
 const LanguageBadgeItem = ({language }) => {
     return (
-        <div style={{'white-space': 'nowrap'}}>
+        <div style={{'whiteSpace': 'nowrap'}}>
             <Box
                 px={2}
                 py={1}
