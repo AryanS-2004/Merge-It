@@ -7,7 +7,7 @@ import {ChakraProvider} from "@chakra-ui/react";
 import IssuesProvider from "./Context/IssuesProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    // <React.StrictMode>
+    <React.StrictMode>
         <BrowserRouter>
             <ChakraProvider>
                 <IssuesProvider>
@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 </IssuesProvider>
             </ChakraProvider>
         </BrowserRouter>
-    // </React.StrictMode>,
+    </React.StrictMode>
 )
