@@ -22,6 +22,8 @@ app.use(cors());
 app.use("/api/user", userRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/repos", repoRoutes);
+app.get('/*', function(req, res) {
+})
 
 
 
