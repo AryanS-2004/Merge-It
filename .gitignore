@@ -3,3 +3,4 @@ client/node_modules
 .env
 .idea
 .DS_Store
+merge-it-class.pem
