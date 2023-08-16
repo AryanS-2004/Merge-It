@@ -1,6 +1,10 @@
-const mongoose = require('mongoose');
-
-const issueSchema = new mongoose.Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+const issueSchema = new mongoose_1.default.Schema({
     organization: {
         type: String,
     },
@@ -30,8 +34,6 @@ const issueSchema = new mongoose.Schema({
             type: String,
         }
     ],
-})
-
-const Issue = mongoose.model('Issue', issueSchema);
-
-module.exports = Issue;
+});
+const Issue = mongoose_1.default.model('Issue', issueSchema);
+exports.default = Issue;

@@ -1,8 +1,9 @@
-const asyncHandler = require('express-async-handler');
-const User = require("../models/userModels");
-const axios = require("axios");
+import asyncHandler from 'express-async-handler';
+import User from "../models/userModels";
+import axios from "axios";
+import { Request, Response } from 'express';
 
-const checkRepoExistence = async (link) => {
+const checkRepoExistence = async (link : string) => {
     try {
         const config = {
             headers: {
@@ -13,7 +14,7 @@ const checkRepoExistence = async (link) => {
         if (response.status === 200) {
             return true; // Repository exists
         }
-    } catch (error) {
+    } catch (error :any) {
         if (error.response && error.response.status === 404) {
             return false; // Repository doesn't exist
         }
@@ -21,9 +22,9 @@ const checkRepoExistence = async (link) => {
     }
 };
 
-const addRepo = asyncHandler(async (req, res) => {
+export const addRepo = async (req :Request, res :Response) => {
     const link = req.body.link;
-    const userId = req.user._id;
+    const userId = req.headers['userId'];
 
     if(!link)return;
 
@@ -49,11 +50,11 @@ const addRepo = asyncHandler(async (req, res) => {
         name: updatedUser.name,
         repos: updatedUser.repos,
     });
-})
+}
 
-const removeRepo = asyncHandler(async (req, res) => {
+export const removeRepo = async (req: Request, res : Response) => {
     const link = req.body.link;
-    const userId = req.user._id;
+    const userId = req.headers['userId'];
 
     if (!link) return;
 
@@ -80,6 +81,4 @@ const removeRepo = asyncHandler(async (req, res) => {
         name: updatedUser.name,
         repos: updatedUser.repos,
     });
-})
-
-module.exports = {addRepo, removeRepo}
+}

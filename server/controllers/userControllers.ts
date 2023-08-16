@@ -1,9 +1,17 @@
-const asyncHandler = require('express-async-handler')
-const User = require('../models/userModels')
-const generateToken = require("../config/generateToken");
+import asyncHandler from 'express-async-handler';
+import User from '../models/userModels';
+import {generateToken} from "../config/generateToken";
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongoose';
 
 
-const registerUser  = asyncHandler(async(req, res) => {
+interface ReqBody{
+    email: string,
+    password: string,
+}
+
+
+export const registerUser  = async(req: Request, res : Response) => {
     const {name, email, password} = req.body;
     if(!name || !email || !password){
         res.status(400);
@@ -18,12 +26,13 @@ const registerUser  = asyncHandler(async(req, res) => {
         const user =  await User.create({
             name, email, password
         });
+        const userId : any = user?._id;
         if(user ){
             res.status(201).json({
-                _id: user._id,
+                _id: userId,
                 name: user.name,
                 email: user.email,
-                token: generateToken(user._id)
+                token: generateToken(userId)
             });
         }
         else{
@@ -31,26 +40,25 @@ const registerUser  = asyncHandler(async(req, res) => {
             throw new Error("Failed to create user, please try again.");
         }
     }
-})
+}
 
-const authUser = asyncHandler( async (req, res) => {
-    const {email, password} = req.body;
+export const authUser = async (req : Request, res : Response) => {
+    const {email, password} : ReqBody = req.body;
 
     const user = await User.findOne({email});
+    const userId : any= user?._id;
 
     if(user && (await user.matchPassword(password))){
         res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id)
+            token: generateToken(userId)
         });
     }
     else{
         res.status(401);
         throw new Error("Invalid email or password.");
     }
-})
+}
 
-
-module.exports = {registerUser, authUser}
