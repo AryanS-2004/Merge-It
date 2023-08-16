@@ -1,6 +1,8 @@
 import LanguageBadgeItem from "./LanguageBadge.js";
-
-const IssueListItem = ({ issue }) => {
+interface IssueItemProps{
+    issue : Issue
+}
+const IssueListItem = ({issue} : IssueItemProps) => {
     return (
         <>
             <div className="bg-[#1A202C] text-[#E2E8F0]  rounded-md py-4 px-4 my-4 w-11/12 mx-auto">

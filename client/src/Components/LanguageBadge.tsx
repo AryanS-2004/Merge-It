@@ -1,6 +1,10 @@
 import {Box} from "@chakra-ui/react";
 
-const LanguageBadgeItem = ({language }) => {
+interface LanguageItemProps {
+    language: string
+}
+
+const LanguageBadgeItem = ({language } : LanguageItemProps) => {
     return (
         <div style={{'whiteSpace': 'nowrap'}}>
             <Box
@@ -9,7 +13,7 @@ const LanguageBadgeItem = ({language }) => {
                 borderRadius="lg"
                 margin={1}
                 mr={10}
-                variant="solid"
+                // variant="solid"
                 fontSize={12}
                 backgroundColor="#284b63"
                 color ='white'
