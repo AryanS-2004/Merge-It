@@ -14,17 +14,17 @@ import {useNavigate} from "react-router-dom";
 
 function SignUp() {
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState<boolean>(false);
 
-    const [name, setName] = useState("");
+    const [name, setName] = useState<string>("");
 
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState<string>("");
 
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState<string>("");
 
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-    const [Loading, setLoading] = useState(false);
+    const [Loading, setLoading] = useState<boolean>(false);
 
     const toast = useToast();
 
@@ -69,7 +69,7 @@ function SignUp() {
                 {name, email, password},
                 config
             )
-            const data = response.data;
+            const data : UserLoginSignupResponseData = response.data;
             toast({
                 title: "Registration Successful!",
                 status: "success",
@@ -79,8 +79,8 @@ function SignUp() {
             });
             localStorage.setItem("userInfo", JSON.stringify(data));
             setLoading(false);
-            navigate('/issues')
-        } catch (error) {
+            navigate('/issues');
+        } catch (error : any) {
             toast({
                 title: "Error Occured!",
                 description: error.response.data.message,

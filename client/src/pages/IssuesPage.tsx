@@ -1,13 +1,13 @@
-import { IssuesState } from "../Context/IssuesProvider.jsx";
+import { IssuesState } from "../Context/IssuesProvider.js";
 import { Avatar, Button, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react";
 import { AddIcon, ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import IssueListItem from "../Components/IssueItem.jsx";
+import IssueListItem from "../Components/IssueItem.js";
 
 const IssuesPage = () => {
-    const { user } = IssuesState();
+    const { user } : any = IssuesState();
     const [issues, setIssues] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState("");
     const [repoLink1, setRepoLink1] = useState("");
@@ -81,9 +81,10 @@ const IssuesPage = () => {
             }
 
             const getIssues = await axios.get(`${import.meta.env.VITE_API_URL}/api/issues`, config);
+            let issues : Issue[] = getIssues.data;
             if (selectedLanguage !== "") {
-                getIssues.data = getIssues.data.filter((issue) => issue.languages.includes(selectedLanguage))
-                if (getIssues.data.length === 0) {
+                issues = issues.filter((issue) => issue.languages.includes(selectedLanguage))
+                if (issues.length === 0) {
                     toast({
                         title: `No issues for the language : ${selectedLanguage} !`,
                         status: "error",
@@ -113,7 +114,7 @@ const IssuesPage = () => {
                 })
             }
 
-        } catch (error) {
+        } catch (error :any) {
             toast({
                 title: "Error Occured!",
                 description: error.message,
@@ -167,7 +168,7 @@ const IssuesPage = () => {
                 isClosable: true,
                 position: 'bottom'
             })
-        } catch (err) {
+        } catch (err :any) {
             toast({
                 title: "Error Occured!",
                 description: err.response.data,
@@ -218,7 +219,7 @@ const IssuesPage = () => {
                 position: 'bottom'
             })
 
-        } catch (err) {
+        } catch (err :any) {
             toast({
                 title: "Error Occured!",
                 description: err.response.data,
@@ -289,7 +290,7 @@ const IssuesPage = () => {
                     </div>
                     <div className="h-full overflow-y-auto pb-4" style={{ scrollbarColor: "#FFF transparent" }}>
                         {
-                            issues?.map((issue) => <IssueListItem
+                            issues?.map((issue :Issue) => <IssueListItem
                                 key={issue.title}
                                 issue={issue}
                             />)

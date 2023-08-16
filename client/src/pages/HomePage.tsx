@@ -1,6 +1,6 @@
 import {Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs, Text} from "@chakra-ui/react";
-import Login from "../Components/Authentication/Login.jsx";
-import SignUp from "../Components/Authentication/SignUp.jsx";
+import Login from "../Components/Authentication/Login.js";
+import SignUp from "../Components/Authentication/SignUp.js";
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -10,17 +10,19 @@ function HomePage() {
 
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('userInfo'));
-        if(user){
-            navigate('/issues');
-            //added a comment
+        const userInfo = localStorage.getItem('userInfo');
+        if (userInfo !== null) {
+            const user = JSON.parse(userInfo);
+            if (user) {
+                navigate('/issues');
+            }
         }
     }, [navigate]);
     return (
         <>
             <Container maxW = 'xl' centerContent fontFamily="Josefin Sans" >
                 <Box
-                    d="flex"
+                    display="flex"
                     textAlign='center'
                     p={3}
                     bg = 'gray.800'

@@ -1,4 +1,4 @@
-import LanguageBadgeItem from "./LanguageBadge.jsx";
+import LanguageBadgeItem from "./LanguageBadge.js";
 
 const IssueListItem = ({ issue }) => {
     return (

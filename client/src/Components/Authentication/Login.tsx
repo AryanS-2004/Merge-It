@@ -1,17 +1,19 @@
-import {Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useToast, VStack} from "@chakra-ui/react";
-import {useState} from "react";
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useToast, VStack } from "@chakra-ui/react";
+import { useState } from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+
 
 function Login() {
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState<boolean>(false);
 
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState<string>("");
 
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState<string>("");
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const toast = useToast();
 
@@ -23,7 +25,7 @@ function Login() {
 
     const submitHandler = async () => {
         setLoading(true);
-        if ( !email || !password ) {
+        if (!email || !password) {
             toast({
                 title: "Please fill all the fields!",
                 status: "warning",
@@ -41,10 +43,10 @@ function Login() {
                 }
             };
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/user/login`,
-                {email, password},
+                { email, password },
                 config
             )
-            const data = response.data;
+            const data : UserLoginSignupResponseData = response.data;
             toast({
                 title: "Login Successful!",
                 status: "success",
@@ -56,7 +58,7 @@ function Login() {
 
             navigate('/issues');
             setLoading(false);
-        } catch (error) {
+        } catch (error: any) {
             toast({
                 title: "Error Occured!",
                 description: error.response.data.message,
@@ -77,7 +79,7 @@ function Login() {
                     <FormLabel>Email</FormLabel>
                     <Input
                         placeholder="Enter your email address"
-                        value ={email}
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
 
                     ></Input>
@@ -88,7 +90,7 @@ function Login() {
                         <Input
                             type={show ? "text" : "password"}
                             placeholder="Enter your password"
-                            value = {password}
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></Input>
                         <InputRightElement width='4.5rem'>
@@ -101,15 +103,15 @@ function Login() {
                 <Button
                     width='100%'
                     bgColor="#284b63"
-                    style={{marginTop: 15}}
+                    style={{ marginTop: 15 }}
                     onClick={submitHandler}
                 >Login</Button>
                 <Button
                     variant='solid'
                     width='100%'
                     bgColor="#3c6e71"
-                    style={{marginTop: 15}}
-                    isLoading = {loading}
+                    style={{ marginTop: 15 }}
+                    isLoading={loading}
                     onClick={() => {
                         setEmail('guest@example.com');
                         setPassword('123456');
