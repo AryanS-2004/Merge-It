@@ -30,6 +30,12 @@ const issueSchema = new mongoose.Schema({
             type: String,
         }
     ],
+    orgLink: {
+        type: String
+    },
+    repoLink: {
+        type: String
+    }
 })
 
 const Issue = mongoose.model('Issue', issueSchema);

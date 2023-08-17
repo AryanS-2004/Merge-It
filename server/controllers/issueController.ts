@@ -4,7 +4,7 @@ import cheerio from "cheerio";
 import { Request, Response } from "express";
 import User from "../models/userModels";
 
-interface IssueData {
+export type IssueData = {
     organization: string;
     repository: string;
     title: string;
