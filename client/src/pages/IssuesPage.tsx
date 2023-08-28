@@ -134,7 +134,7 @@ const IssuesPage = () => {
             fetchIssues();
         }
         if (issues) {
-            // setIssuesLoading(false);
+            setIssuesLoading(false);
         }
     }, [user, selectedLanguage, fetchAgain, issues]);
 
