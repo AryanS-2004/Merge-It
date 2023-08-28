@@ -70,13 +70,6 @@ const IssuesPage = () => {
 
     const fetchIssues = async () => {
         try {
-            toast({
-                title: "Loading!",
-                status: "warning",
-                duration: 5000,
-                isClosable: true,
-                position: 'bottom'
-            })
             const config = {
                 headers: {
                     authorization: `Bearer ${user.token}`,
@@ -97,25 +90,11 @@ const IssuesPage = () => {
                         position: 'bottom'
                     })
                 }
-                setIssues(getIssues.data)
-                if (getIssues.data.length !== 0) {
-                    toast({
-                        title: "Success!",
-                        status: "success",
-                        duration: 5000,
-                        isClosable: true,
-                        position: 'bottom'
-                    })
-                }
+                setIssues(getIssues.data);
+                setIssuesLoading(false);
             } else {
                 setIssues(getIssues.data);
-                toast({
-                    title: "Success!",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: 'bottom'
-                })
+                setIssuesLoading(false);
             }
 
         } catch (error: any) {
@@ -133,10 +112,8 @@ const IssuesPage = () => {
         if (user) {
             fetchIssues();
         }
-        if (issues) {
-            setIssuesLoading(false);
-        }
-    }, [user, selectedLanguage, fetchAgain, issues]);
+        
+    }, [user, selectedLanguage, fetchAgain]);
 
 
     const logoutHandler = () => {
