@@ -16,7 +16,7 @@ export type IssueData = {
     languages: string[];
     orgLink: string;
     repoLink: string;
-}
+} 
 
 const token : string | undefined = process.env.GITHUB_PAT;
 

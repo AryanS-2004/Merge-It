@@ -5,14 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import IssueListItem from "../Components/IssueItem.js";
+import IssueListItemLoader from "../Components/IssueListItemLoader.js";
 
 const IssuesPage = () => {
-    const { user } : any = IssuesState();
+    const { user }: any = IssuesState();
     const [issues, setIssues] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState("");
     const [repoLink1, setRepoLink1] = useState("");
     const [repoLink2, setRepoLink2] = useState("");
     const [fetchAgain, setFetchAgain] = useState(false);
+    const [issuesLoading, setIssuesLoading] = useState(true);
+
+    const loadingArray = Array.from({length: 5})
 
 
     const navigate = useNavigate();
@@ -81,7 +85,7 @@ const IssuesPage = () => {
             }
 
             const getIssues = await axios.get(`${import.meta.env.VITE_API_URL}/api/issues`, config);
-            let issues : Issue[] = getIssues.data;
+            let issues: Issue[] = getIssues.data;
             if (selectedLanguage !== "") {
                 issues = issues.filter((issue) => issue.languages.includes(selectedLanguage))
                 if (issues.length === 0) {
@@ -114,7 +118,7 @@ const IssuesPage = () => {
                 })
             }
 
-        } catch (error :any) {
+        } catch (error: any) {
             toast({
                 title: "Error Occured!",
                 description: error.message,
@@ -129,7 +133,10 @@ const IssuesPage = () => {
         if (user) {
             fetchIssues();
         }
-    }, [user, selectedLanguage, fetchAgain]);
+        if (issues) {
+            // setIssuesLoading(false);
+        }
+    }, [user, selectedLanguage, fetchAgain, issues]);
 
 
     const logoutHandler = () => {
@@ -168,7 +175,7 @@ const IssuesPage = () => {
                 isClosable: true,
                 position: 'bottom'
             })
-        } catch (err :any) {
+        } catch (err: any) {
             toast({
                 title: "Error Occured!",
                 description: err.response.data,
@@ -219,7 +226,7 @@ const IssuesPage = () => {
                 position: 'bottom'
             })
 
-        } catch (err :any) {
+        } catch (err: any) {
             toast({
                 title: "Error Occured!",
                 description: err.response.data,
@@ -290,10 +297,18 @@ const IssuesPage = () => {
                     </div>
                     <div className="h-full overflow-y-auto pb-4" style={{ scrollbarColor: "#FFF transparent" }}>
                         {
-                            issues?.map((issue :Issue) => <IssueListItem
-                                key={issue.title}
-                                issue={issue}
-                            />)
+                            issuesLoading ? (
+                                loadingArray.map((_: any, index: number)=> <div key={index}>
+                                    <IssueListItemLoader />
+                                </div>
+                                )
+                            ) : (
+
+                                issues?.map((issue: Issue) => <IssueListItem
+                                    key={issue.title}
+                                    issue={issue}
+                                />)
+                            )
                         }
                     </div>
                 </div>
