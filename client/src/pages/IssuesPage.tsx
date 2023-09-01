@@ -272,7 +272,7 @@ const IssuesPage = () => {
                             </Menu>
                         </div>
                     </div>
-                    <div className="h-full overflow-y-auto pb-4" style={{ scrollbarColor: "#FFF transparent" }}>
+                    <div className="overflow-auto pb-4 rounded-xl" style={{ height: "75%",scrollbarColor: "#FFF transparent" }}>
                         {
                             issuesLoading ? (
                                 loadingArray.map((_: any, index: number)=> <div key={index}>

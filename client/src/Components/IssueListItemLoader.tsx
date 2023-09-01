@@ -1,6 +1,5 @@
 
 const IssueListItemLoader = () => {
-
     const loadingArray = Array.from({ length: 8 });
     return (
         <>

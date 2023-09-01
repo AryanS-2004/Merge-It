@@ -3,4 +3,4 @@ client/node_modules
 .env
 .idea
 .DS_Store
-merge-it-cer.pem
+free-server-class.pem
