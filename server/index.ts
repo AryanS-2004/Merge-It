@@ -22,6 +22,10 @@ app.use("/api/user", userRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/repos", repoRoutes);
 
+app.get("/", (req, res)=>{
+    res.json({msg: "The server is working, Nothing to worry about."})
+})
+
 
 //Error handling 
 app.use(notFound);

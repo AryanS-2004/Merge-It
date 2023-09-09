@@ -34,6 +34,12 @@ const issueSchema = new mongoose_1.default.Schema({
             type: String,
         }
     ],
+    orgLink: {
+        type: String
+    },
+    repoLink: {
+        type: String
+    }
 });
 const Issue = mongoose_1.default.model('Issue', issueSchema);
 exports.default = Issue;
