@@ -28,7 +28,7 @@ jobs:
           context: .
           push: true
           tags: singlaaryan/repo-1/merge-it-server:latest  
-          dockerfile: ./server/Dockerfile  
+          dockerfile: ./server/
 
       -
         name: Build and push client image
@@ -37,4 +37,4 @@ jobs:
           context: .
           push: true
           tags: singlaaryan/repo-1/merge-it-client:latest  
-          dockerfile: ./client/Dockerfile  
+          dockerfile: ./client/
