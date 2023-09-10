@@ -27,7 +27,7 @@ jobs:
         with:
           context: ./server
           push: true
-          tags: singlaaryan/repo-1/merge-it-server:latest  
+          tags: repo-1/merge-it-server:latest  
 
       -
         name: Build and push client image
@@ -35,4 +35,4 @@ jobs:
         with:
           context: ./client
           push: true
-          tags: singlaaryan/repo-1/merge-it-client:latest  
+          tags: repo-1/merge-it-client:latest  
