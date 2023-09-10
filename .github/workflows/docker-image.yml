@@ -25,16 +25,14 @@ jobs:
         name: Build and push server image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./server
           push: true
           tags: singlaaryan/repo-1/merge-it-server:latest  
-          dockerfile: ./server/
 
       -
         name: Build and push client image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./client
           push: true
           tags: singlaaryan/repo-1/merge-it-client:latest  
-          dockerfile: ./client/
