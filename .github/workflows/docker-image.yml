@@ -19,6 +19,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
+          name: List Files
+          run: ls -R
+      -
         name: Build and push server image
         uses: docker/build-push-action@v4
         with:
