@@ -15,13 +15,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIssues = void 0;
 const axios_1 = __importDefault(require("axios"));
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
-const cheerio_1 = __importDefault(require("cheerio"));
 const userModels_1 = __importDefault(require("../models/userModels"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const token = process.env.GITHUB_PAT;
+// console.log(token);
 const headers = {
-    Authorization: `${token}`,
+    Authorization: `Bearer ${token}`,
 };
+let allIssues;
 let ISSUES = [];
+let ISSUES2 = [];
+function getIssuesAll(owner, repo) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            const response = yield axios_1.default.get(`https://api.github.com/repos/${owner}/${repo}/issues`, config);
+            allIssues = response.data;
+            return allIssues;
+        }
+        catch (err) {
+            console.log(err);
+            // console.log(token);
+        }
+    });
+}
 function scrapeRepositoryLanguages(owner, repo) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -38,7 +60,7 @@ function scrapeRepositoryLanguages(owner, repo) {
 }
 exports.getIssues = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.headers['userId'];
+        const userId = req.headers["userId"];
         const user = yield userModels_1.default.findOne({ _id: userId });
         if (!user) {
             res.status(500).send({ msg: "Not able to find user" });
@@ -46,40 +68,25 @@ exports.getIssues = (0, express_async_handler_1.default)((req, res) => __awaiter
         }
         const REPO_URLS = user.repos;
         ISSUES = [];
+        ISSUES2 = [];
         const scrapingPromises = REPO_URLS.map((url) => __awaiter(void 0, void 0, void 0, function* () {
             const splittedUrl = url.split("/");
             const owner = splittedUrl[3];
             const repo = splittedUrl[4];
             let repoLanguages;
+            let allIssues;
             try {
+                allIssues = yield getIssuesAll(owner, repo);
                 repoLanguages = yield scrapeRepositoryLanguages(owner, repo);
             }
             catch (error) {
                 console.error(error);
                 repoLanguages = [];
             }
-            const response = yield axios_1.default.get(url);
-            const html = response.data;
-            const $ = cheerio_1.default.load(html);
-            const issues = $(".js-navigation-container > div");
-            issues.each((index, element) => {
-                const titleElement = $(element).find(".h4");
-                const issueTitle = titleElement.text().trim();
-                const issueNumber = $(element).find(".opened-by").text().trim();
-                let issueLink = $(element).find(".h4").attr("href");
-                const splittedIssue = issueNumber.split(" ");
-                if (!issueLink) {
-                    return res.status(500).send({
-                        msg: "issue not found",
-                    });
-                }
-                // converting Date
-                const dateStr = splittedIssue[13] +
-                    " " +
-                    splittedIssue[14] +
-                    " " +
-                    splittedIssue[15];
-                const dateObj = new Date(dateStr);
+            allIssues.map((issue, index) => {
+                const issueTitle = issue.title;
+                const issueNumber = issue.number;
+                const dateObj = new Date(issue.created_at);
                 const formattedDate = dateObj.toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",
@@ -92,29 +99,27 @@ exports.getIssues = (0, express_async_handler_1.default)((req, res) => __awaiter
                 const day = dateObj.getDate().toString().padStart(2, "0");
                 const formattedDate2 = `${year}${month}${day}`;
                 const dateNum = parseInt(formattedDate2, 10);
-                const splittedIssueLink = issueLink.split("/");
-                issueLink = "https://github.com" + issueLink;
-                const orgLink = "https://github.com/" + splittedIssueLink[1];
-                const repoLink = "https://github.com/" +
-                    splittedIssueLink[1] +
-                    "/" +
-                    splittedIssueLink[2];
-                const findIssue = ISSUES.find((issue) => issue.number === splittedIssueLink[4] &&
+                const author = issue.user.login;
+                const issueLink = issue.html_url;
+                const orgLink = `https://github.com/${owner}`;
+                const repoLink = `https://github.com/${owner}/${repo}`;
+                const findIssue = ISSUES.find((issue) => issue.number === issueNumber &&
                     issue.repository === repo);
-                if (!findIssue)
+                if (!findIssue) {
                     ISSUES.push({
                         organization: owner,
                         repository: repo,
                         title: issueTitle,
-                        number: splittedIssueLink[4],
+                        number: issueNumber,
                         date: formattedDate,
                         dateNum: dateNum,
-                        author: splittedIssue[28],
+                        author: author,
                         link: issueLink,
                         languages: repoLanguages,
                         orgLink: orgLink,
                         repoLink: repoLink,
                     });
+                }
             });
         }));
         yield Promise.all(scrapingPromises);
@@ -122,6 +127,7 @@ exports.getIssues = (0, express_async_handler_1.default)((req, res) => __awaiter
     catch (error) {
         console.error(error);
         res.status(500).send(error.message);
+        return;
     }
     ISSUES.sort((a, b) => b.dateNum - a.dateNum);
     res.status(200).send(ISSUES);

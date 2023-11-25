@@ -20,6 +20,9 @@ app.use((0, cors_1.default)());
 app.use("/api/user", userRoutes_1.default);
 app.use("/api/issues", issueRoutes_1.default);
 app.use("/api/repos", repoRoutes_1.default);
+app.get("/", (req, res) => {
+    res.json({ msg: "The server is working, Nothing to worry about." });
+});
 //Error handling 
 app.use(errorMiddleware_1.notFound);
 app.use(errorMiddleware_1.errorHandler);
