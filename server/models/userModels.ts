@@ -33,7 +33,7 @@ interface IUser {
     name: string;
     email: string;
     password: string;
-    repos: string[]; // Specify the correct type for the 'repos' property
+    repos: string[]; 
 }
 
 interface IUserDocument extends IUser, Document {
